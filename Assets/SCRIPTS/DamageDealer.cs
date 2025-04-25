@@ -5,6 +5,7 @@ public class DamageDealer : MonoBehaviour
     [SerializeField] private int damage = 1;
     [SerializeField] private string[] toDamageTag;
     [SerializeField] private Transform damagePoint = null;
+    [SerializeField] private bool destroyOnDamageDeal = false;
     public Vector2 damageSize;
 
     private void Awake()
@@ -30,6 +31,7 @@ public class DamageDealer : MonoBehaviour
                 if (damageable != null)
                 {
                     damageable.TakeDamage(damage, gameObject);
+                    if (destroyOnDamageDeal) Destroy(gameObject);
                 }
             }
         }

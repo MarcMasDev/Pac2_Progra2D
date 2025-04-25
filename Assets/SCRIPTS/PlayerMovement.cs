@@ -21,15 +21,13 @@ public class PlayerMovement : MonoBehaviour
     public Action OnReachedCheckpoint;
 
     private Rigidbody2D rb;
-    private SpriteRenderer flipper;
     private Animator animator;
 
-    bool isMoving, grounded;
+    bool isMoving, grounded, facingLeft;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        flipper = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
@@ -63,14 +61,18 @@ public class PlayerMovement : MonoBehaviour
         {
             MoveBackward();
             isMoving = true;
-            flipper.flipX = true;
+
+            if (!facingLeft)
+                FlipPlayer();
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             MoveForward();
             isMoving = true;
-            flipper.flipX = false;
+
+            if (facingLeft)
+                FlipPlayer();
         }
     }
 
@@ -184,5 +186,23 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetBool("Jumping", jumping);
         animator.SetBool("Moving", moving);
+    }
+
+    //La direcció del player ha d'afectar als seus childs (d'aquesta forma el shoot el segueix)
+    private void FlipPlayer()
+    {
+        facingLeft = !facingLeft;
+        UpdateVisualScale(transform.localScale);
+    }
+
+
+    //Per evitar errors de mushroom i turn a la vegada.
+    private void UpdateVisualScale(Vector3 baseSize)
+    {
+        Vector3 newScale = baseSize;
+        if (facingLeft) newScale.x = Mathf.Abs(baseSize.x) * -1;
+        else newScale.x = Mathf.Abs(baseSize.x) * 1;
+
+        transform.localScale = newScale;
     }
 }

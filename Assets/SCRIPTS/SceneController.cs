@@ -23,10 +23,11 @@ public class SceneController : MonoBehaviour
         }
     }
     
-    public void LoadGame()
+    public void LoadGame(bool win = false)
     {
         Inventory.ResetCoins();
         Inventory.ResetPoints();
+        if (win) Inventory.ResetCheckpoint();
         SceneManager.LoadScene("Game");
     }
     private void LoadGameOver()

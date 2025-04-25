@@ -18,6 +18,8 @@ public class PowerUps : MonoBehaviour
     [SerializeField] private string coinsTag;
     [SerializeField] private int coinsAmount = 1;
 
+    [Header("Checkpoints")]
+    [SerializeField] private string checkpointsTag;
     private void OnEnable()
     {
         HealthSystem.OnDamaged += LostHealth;
@@ -31,6 +33,8 @@ public class PowerUps : MonoBehaviour
     {
         initSize = transform.localScale;
         healthSystem = GetComponent<HealthSystem>();
+
+        if (Inventory.CheckpointSet) transform.position = Inventory.LastCheckpoint;
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -48,16 +52,28 @@ public class PowerUps : MonoBehaviour
             Inventory.AddCoins(coinsAmount);
             Destroy(col.gameObject);
         }
+        if (col.CompareTag(checkpointsTag))
+        {
+            Inventory.AddCheckpoint(col.transform.position);
+            Destroy(col.gameObject);
+        }
     }
     private void EnableMushroomEffect()
     {
-        transform.localScale = new Vector2(sizeIncrease.x + transform.localScale.x, sizeIncrease.y + transform.localScale.y);
-        healthSystem.Heal(healAmount);
+        float facing = Mathf.Sign(transform.localScale.x); // +1 o -1 segons si està girat
 
+        Vector2 absScale = new Vector2(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
+        Vector2 newScale = new Vector2(absScale.x + sizeIncrease.x, absScale.y + sizeIncrease.y);
+        transform.localScale = new Vector3(newScale.x * facing, newScale.y, 1f);
+
+        healthSystem.Heal(healAmount);
         AudioController.Instance.Play(SoundType.PowerUp);
     }
     private void DisableMushroomEffect()
     {
+        float facing = Mathf.Sign(transform.localScale.x); // Recorda direcció actual
+
+        transform.localScale = new Vector3(Mathf.Abs(initSize.x) * facing,Mathf.Abs(initSize.y),1f);
         transform.localScale = initSize;
 
         AudioController.Instance.Play(SoundType.PowerUpLost);
