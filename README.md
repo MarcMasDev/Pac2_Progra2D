@@ -11,9 +11,51 @@ Vídeo: https://drive.google.com/file/d/1BKbgIKBwUv7yUDessFk351_2zLcGIXJj/view?u
 
 Controls
 =============
-Fletxes per moure's. Fletxa a dalt per saltar.
+Fletxes per moure's. Fletxa a dalt per saltar. Z X C per dispars.
 
-Features
+Features (PAC 3)
+=============
+#### Personatge amb tres animacions (Idle, Walk, Jump)
+El player compta amb un Animator que gestiona tres estats diferenciats:
+- Idle quan està quiet.
+- Walk quan es mou horitzontalment.
+- Jump quan està en l'aire.
+Les transicions són dinàmiques segons l'estat del jugador. Es gestionen via PlayerMovement.
+
+#### Sistema de partícules al joc
+S'han introduït diversos sistemes de partícules:
+- Explosió de projectils: quan impacten amb obstacles o enemics.
+- Mort d'enemics: s'activen partícules en morir.
+- Destrucció de blocs: genera pols/partícules visuals.
+- Partícules ambientals: com boira o pols en moviment a l'escena principal.
+
+#### Enemics amb intel·ligència artificial
+S'ha afegit un nou tipus d'enemic volador (BatEnemyFSM) amb una FSM (Finite State Machine) simple però funcional:
+- Freeze: queda aturat quan el jugador està lluny.
+- Wander: vola de forma semialetòria, canviant direcció cada X segons.
+- ChasePlayer: persegueix el jugador si entra a certa distància.
+- AttackPlayer: fa una càrrega ràpida (dash) cap al jugador quan està molt a prop.
+
+Això amplia considerablement la varietat de comportaments respecte als enemics de la Pràctica 2.
+
+#### Físiques i col·lisions per projectils
+Els projectils utilitzen física amb Rigidbody2D i es comporten de manera diferent segons el tipus:
+- Standard: impacte normal que fa mal.
+- Climb: projectil sòlid que permet al jugador saltar-hi a sobre i utilitzar-lo com a plataforma.
+- Explosion: projectil que esclata provocant dany en àrea.
+
+Cada tipus de projectil gestiona propietats de física i col·lisions pròpies.
+
+#### Checkpoints
+S'han afegit checkpoints. Al agafarlos i perdre, el jugador fa respawn allí. En cas de victòria, s'esborren els checkpoints.
+Aquests estàn a la Script "PowerUps" i a la script "Inventory".
+
+#### Ús de Tags i Layers
+S'han utilitzat tant Tags com Layers:
+- Tags: identificació ràpida d'objectes per danyar o interactuar (Enemy, Player, Ground, etc.).
+- Layers: gestió de què pot danyar què, quins projectils col·lisionen amb quins elements, etc., especialment a DestroyOnCol i DamageDealer.
+
+Features (PAC 2)
 =============
 
 #### Moviment horitzontal i salt de Mario
