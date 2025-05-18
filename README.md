@@ -1,4 +1,4 @@
-# Pac 2
+# Pac 3
 
 Marc Mas Vidal
 Vídeo: https://drive.google.com/file/d/1BKbgIKBwUv7yUDessFk351_2zLcGIXJj/view?usp=sharing
@@ -54,6 +54,11 @@ Aquests estàn a la Script "PowerUps" i a la script "Inventory".
 S'han utilitzat tant Tags com Layers:
 - Tags: identificació ràpida d'objectes per danyar o interactuar (Enemy, Player, Ground, etc.).
 - Layers: gestió de què pot danyar què, quins projectils col·lisionen amb quins elements, etc., especialment a DestroyOnCol i DamageDealer.
+
+
+
+
+
 
 Features (PAC 2)
 =============
